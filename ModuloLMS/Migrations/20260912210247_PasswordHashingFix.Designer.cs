@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ModuloLMS.Data;
 
@@ -11,9 +12,11 @@ using ModuloLMS.Data;
 namespace ModuloLMS.Migrations
 {
     [DbContext(typeof(ModuloLMSContext))]
-    partial class ModuloLMSContextModelSnapshot : ModelSnapshot
+    [Migration("20260912210247_PasswordHashingFix")]
+    partial class PasswordHashingFix
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

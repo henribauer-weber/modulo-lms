@@ -11,7 +11,7 @@
 <div class="row">
     <div class="col-md-4">
         <form method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div asp-validation-summary="All" class="text-danger"></div>
             <div class="form-group">
                 <span class="text-danger">*</span>
                 <label asp-for="User.Email" class="control-label"></label>
@@ -32,9 +32,15 @@
             </div>
             <div class="form-group">
                 <span class="text-danger">*</span>
-                <label asp-for="User.Password" class="control-label"></label>
-                <input asp-for="User.Password" class="form-control" aria-required="true"/>
-                <span asp-validation-for="User.Password" class="text-danger"></span>
+                <label asp-for="Password" class="control-label"></label>
+                <input asp-for="Password" class="form-control" aria-required="true"/>
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <span class="text-danger">*</span>
+                <label asp-for="ConfirmPassword" class="control-label"></label>
+                <input asp-for="ConfirmPassword" class="form-control" aria-required="true" />
+                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <span class="text-danger">*</span>
@@ -43,7 +49,20 @@
                 <span asp-validation-for="User.DateOfBirth" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <span class="text-danger">*</span>
+                <label asp-for="User.Type" class="control-label"></label>
+                <div>
+                    <input class="form-check-input" type="radio" asp-for="User.Type" id="TypeStudent" value="Student" />
+                    <label class="form-check-label" for="TypeStudent">Student</label>
+                </div>
+                <div>
+                    <input class="form-check-input" type="radio" asp-for="User.Type" id="TypeInstructor" value="Instructor" />
+                    <label class="form-check-label" for="TypeInstructor">Instructor</label>
+                </div>
+                <span asp-validation-for="User.Type" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create Account" class="btn btn-primary" />
             </div>
         </form>
     </div>

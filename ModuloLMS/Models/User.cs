@@ -1,4 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+
+public enum UserType { Student, Instructor };
 
 namespace ModuloLMS.Models
 {
@@ -15,10 +19,13 @@ namespace ModuloLMS.Models
         [Display(Name = "Last Name"), StringLength(40, MinimumLength = 1), Required]
         public string LastName { get; set; }
 
-        [DataType(DataType.Password), StringLength(64, MinimumLength = 12), Required]
-        public string Password { get; set; }
+        [BindNever, ValidateNever]
+        public string PasswordHash { get; set; } = string.Empty;
 
         [Display(Name = "Date of Birth"), DataType(DataType.Date), Required]
         public DateTime DateOfBirth { get; set; }
+
+        [Display(Name = "Account Type"), Required]
+        public UserType Type { get; set; }
     }
 }

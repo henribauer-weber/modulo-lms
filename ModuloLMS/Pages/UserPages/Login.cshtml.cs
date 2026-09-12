@@ -1,8 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
 using ModuloLMS.Data;
+using ModuloLMS.Models;
 
 namespace ModuloLMS.Pages.UserPages
 {
@@ -40,11 +42,12 @@ namespace ModuloLMS.Pages.UserPages
                 return Page();
             }
             
-            // TODO: Get hashed password
-            
-            var userEntity = await _context.User.FirstOrDefaultAsync(u => u.Email.ToLower() == Input.Email.ToLower() && u.Password == Input.Password);
+            // Get the user associated with this email
+            var userEntity = await _context.User.FirstOrDefaultAsync(u => u.Email.ToLower() == Input.Email.ToLower());
 
-            if (userEntity == null)
+            var Hasher = new PasswordHasher<User>();
+
+            if (userEntity == null || Hasher.VerifyHashedPassword(userEntity, userEntity.PasswordHash, Input.Password) == PasswordVerificationResult.Failed)
             {
                 ModelState.AddModelError(string.Empty, "Invalid email or password.");
                 return Page();
