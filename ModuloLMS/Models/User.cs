@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Numerics;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
@@ -27,5 +28,8 @@ namespace ModuloLMS.Models
 
         [Display(Name = "Account Type"), Required]
         public UserType Type { get; set; }
+
+        [Required]
+        public List<Course> Courses { get; set; }
     }
 }
