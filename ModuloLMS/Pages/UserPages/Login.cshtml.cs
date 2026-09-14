@@ -43,7 +43,7 @@ namespace ModuloLMS.Pages.UserPages
             }
             
             // Get the user associated with this email
-            var userEntity = await _context.User.FirstOrDefaultAsync(u => u.Email.ToLower() == Input.Email.ToLower());
+            var userEntity = await _context.Users.FirstOrDefaultAsync(u => u.Email.ToLower() == Input.Email.ToLower());
 
             var Hasher = new PasswordHasher<User>();
 

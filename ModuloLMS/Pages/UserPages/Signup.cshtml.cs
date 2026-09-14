@@ -51,7 +51,7 @@ public class CreateModel : PageModel
             return Page();
         }
 
-        bool emailExists = await _context.User.AnyAsync(u => u.Email.ToLower() == User.Email.ToLower());
+        bool emailExists = await _context.Users.AnyAsync(u => u.Email.ToLower() == User.Email.ToLower());
 
         if (emailExists)
         {
@@ -71,7 +71,7 @@ public class CreateModel : PageModel
         var Hasher = new PasswordHasher<User>();
         User.PasswordHash = Hasher.HashPassword(User, Password);
 
-        _context.User.Add(User);
+        _context.Users.Add(User);
         await _context.SaveChangesAsync();
 
         // Redirect to Dashboard or Login page after successful signup

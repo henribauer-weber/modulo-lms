@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Numerics;
 
-
+public enum DayOfWeek { Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday };
 
 namespace ModuloLMS.Models
 {
@@ -9,8 +9,9 @@ namespace ModuloLMS.Models
     {
         public class ClassTime
         {
-            public DateTime StartTime { get; set; }
-            public TimeSpan Duration { get; set; }
+            public DayOfWeek DayOfWeek { get; set; }
+            public TimeOnly StartTime { get; set; }
+            public TimeOnly EndTime { get; set; }
         }
 
         [Display(Name = "Course Number"), Required]
