@@ -29,7 +29,13 @@ namespace ModuloLMS.Models
         [Display(Name = "Account Type"), Required]
         public UserType Type { get; set; }
 
-        [Required]
-        public List<Course> Courses { get; set; }
+
+        // Everything below this is for navigation and is not stored in the database. EF will use this to create relationships between tables.
+
+        // enrollments for this user (if student)
+        public List<Enrollment> Enrollments { get; set; } = new();
+
+        // courses this user teaches (if instructor)
+        public List<Course> CoursesTaught { get; set; } = new();
     }
 }

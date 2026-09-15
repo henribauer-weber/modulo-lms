@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ModuloLMS.Data;
 
@@ -11,9 +12,11 @@ using ModuloLMS.Data;
 namespace ModuloLMS.Migrations
 {
     [DbContext(typeof(ModuloLMSContext))]
-    partial class ModuloLMSContextModelSnapshot : ModelSnapshot
+    [Migration("20260915211224_EnrollmentTable")]
+    partial class EnrollmentTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,7 +51,7 @@ namespace ModuloLMS.Migrations
                     b.Property<int>("Credits")
                         .HasColumnType("int");
 
-                    b.Property<int?>("InstructorId")
+                    b.Property<int>("InstructorId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -83,27 +86,6 @@ namespace ModuloLMS.Migrations
                     b.HasIndex("CourseId");
 
                     b.ToTable("ClassTime");
-                });
-
-            modelBuilder.Entity("ModuloLMS.Models.Enrollment", b =>
-                {
-                    b.Property<int>("StudentId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CourseId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("EnrolledAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("FinalGrade")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("StudentId", "CourseId");
-
-                    b.HasIndex("CourseId");
-
-                    b.ToTable("Enrollments");
                 });
 
             modelBuilder.Entity("ModuloLMS.Models.User", b =>
@@ -146,9 +128,10 @@ namespace ModuloLMS.Migrations
             modelBuilder.Entity("ModuloLMS.Models.Course", b =>
                 {
                     b.HasOne("ModuloLMS.Models.User", "Instructor")
-                        .WithMany("CoursesTaught")
+                        .WithMany()
                         .HasForeignKey("InstructorId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Instructor");
                 });
@@ -160,37 +143,9 @@ namespace ModuloLMS.Migrations
                         .HasForeignKey("CourseId");
                 });
 
-            modelBuilder.Entity("ModuloLMS.Models.Enrollment", b =>
-                {
-                    b.HasOne("ModuloLMS.Models.Course", "Course")
-                        .WithMany("Enrollments")
-                        .HasForeignKey("CourseId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ModuloLMS.Models.User", "Student")
-                        .WithMany("Enrollments")
-                        .HasForeignKey("StudentId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Course");
-
-                    b.Navigation("Student");
-                });
-
             modelBuilder.Entity("ModuloLMS.Models.Course", b =>
                 {
                     b.Navigation("ClassTimes");
-
-                    b.Navigation("Enrollments");
-                });
-
-            modelBuilder.Entity("ModuloLMS.Models.User", b =>
-                {
-                    b.Navigation("CoursesTaught");
-
-                    b.Navigation("Enrollments");
                 });
 #pragma warning restore 612, 618
         }
