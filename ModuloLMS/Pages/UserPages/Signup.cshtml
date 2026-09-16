@@ -11,6 +11,7 @@
 <div class="row">
     <div class="col-md-4">
         <form method="post">
+            <input type="hidden" asp-for="ReturnUrl" />
             <div asp-validation-summary="All" class="text-danger"></div>
             <div class="form-group">
                 <span class="text-danger">*</span>
@@ -69,7 +70,7 @@
 </div>
 
 <div>
-    <a asp-page="./login">Back to Log In</a>
+    <a asp-page="/UserPages/Login" asp-route-returnUrl="@(Request.Query["returnUrl"])">Back to Log In</a>
 </div>
 
 @section Scripts {

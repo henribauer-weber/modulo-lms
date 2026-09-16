@@ -17,6 +17,10 @@ public class CreateModel : PageModel
         _context = context;
     }
 
+    // Receive/preserve return URL
+    [BindProperty(SupportsGet = true)]
+    public string? ReturnUrl { get; set; }
+
     public IActionResult OnGet()
     {
         return Page();
@@ -74,7 +78,12 @@ public class CreateModel : PageModel
         _context.Users.Add(User);
         await _context.SaveChangesAsync();
 
+        // After signup, send user to login page so they can sign in; preserve ReturnUrl so they can continue
+        if (!string.IsNullOrEmpty(ReturnUrl))
+        {
+            return RedirectToPage("/UserPages/Login", new { returnUrl = ReturnUrl });
+        }
         // Redirect to Dashboard or Login page after successful signup
-        return RedirectToPage("./Index");
+        return RedirectToPage("/UserPages/Login");
     }
 }
