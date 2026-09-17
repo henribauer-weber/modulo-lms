@@ -1,10 +1,101 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Dashboard";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="dashboard-container">
+    <div class="mb-4">
+        <h1 class="h2 fw-bold text-dark mb-1">Dashboard</h1>
+        <p class="text-muted mb-0">Welcome to ModuloLMS. Overview of your courses and academic progress.</p>
+    </div>
+
+    <!-- main -->
+    <div class="row g-4">
+
+        <div class="col-lg-8">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+                <h2 class="h4 fw-bold mb-0">My Courses</h2>
+                <span class="badge bg-primary fs-6">
+                    @Model.NumberOfCourses @(Model.NumberOfCourses == 1 ? "Course" : "Courses") Enrolled
+                </span>
+            </div>
+
+            <!-- course cards -->
+            <div class="row row-cols-1 row-cols-md-2 g-3">
+                @if (Model.EnrolledCourses != null && Model.EnrolledCourses.Any())
+                {
+                    @foreach (var course in Model.EnrolledCourses)
+                    {
+                        <div class="col">
+                            <div class="card h-100 shadow-sm border-0 border-top border-4 border-primary course-card">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-start mb-2">
+                                        <span class="badge bg-light text-primary border fw-semibold">@course.CourseNumber</span>
+                                    </div>
+                                    <h5 class="card-title fw-bold text-dark mb-3">@course.CourseTitle</h5>
+
+                                    <ul class="list-unstyled text-muted small mb-0 d-flex flex-column gap-2">
+                                        <li class="d-flex align-items-center gap-2">
+                                            <strong class="text-dark">Instructor:</strong> @course.Instructor
+                                        </li>
+                                        <li class="d-flex align-items-center gap-2">
+                                            <strong class="text-dark">Time:</strong> @course.Time
+                                        </li>
+                                        <li class="d-flex align-items-center gap-2">
+                                            <strong class="text-dark">Location:</strong> @course.Location
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div class="col-12">
+                        <div class="alert alert-info" role="alert">
+                            No courses found. You are not enrolled in any courses yet.
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+        
+        <div class="col-lg-4">
+            <div class="d-flex flex-column gap-4">
+                <!-- calendar widgets -->
+                <div class="card shadow-sm border-0">
+                    <div class="card-header bg-white border-bottom py-3">
+                        <h3 class="h5 fw-bold mb-0 text-dark">Upcoming Schedule</h3>
+                    </div>
+                    <div class="card-body py-4 text-center text-muted">
+                        <p class="mb-0">No upcoming events scheduled at this time.</p>
+                    </div>
+                </div>
+
+                <!-- assignments widget -->
+                <div class="card shadow-sm border-0">
+                    <div class="card-header bg-white border-bottom py-3">
+                        <h3 class="h5 fw-bold mb-0 text-dark">Recent Assignments</h3>
+                    </div>
+                    <div class="card-body py-4 text-center text-muted">
+                        <p class="mb-0">No recent assignments to display.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+<style>
+    .course-card {
+        transition: transform 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    }
+
+        .course-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 .5rem 1rem rgba(0,0,0,.1) !important;
+        }
+</style>
