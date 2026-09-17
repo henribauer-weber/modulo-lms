@@ -95,7 +95,7 @@ namespace ModuloLMS.Pages.UserPages
                 return LocalRedirect(ReturnUrl);
             }
             // Redirect to dashboard page after login
-            return RedirectToPage("/Dashboard"); // TODO: Change this to the actual dashboard page once it's implemented
+            return RedirectToPage("/");
         }
     }
 }
