@@ -54,7 +54,11 @@ namespace ModuloLMS.Pages.UserPages
             }
 
             // Redirect to dashboard page after login
+<<<<<<< Updated upstream
             return RedirectToPage("/Dashboard");
+=======
+            return RedirectToPage("/Index");
+>>>>>>> Stashed changes
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -30,7 +30,8 @@
                 .btn-outline-primary:hover,
                 .btn-outline-secondary:hover,
                 .btn-outline-primary:focus,
-                .btn-outline-secondary:focus {
+                .btn-outline-secondary:focus,
+                .btn-outline-primary.show {
                     background-color: #4b2682 !important;
                     border-color: #4b2682 !important;
                     color: #ffffff !important;
@@ -39,6 +40,9 @@
                 .btn-outline-primary svg,
                 .btn-outline-secondary svg {
                     fill: currentColor !important;
+                }
+                .dropdown-item:active {
+                    background-color: #4b2682 !important;
                 }
             /* hover */
             .course-card {
@@ -58,11 +62,13 @@
             <div class="container">
                 <a class="navbar-brand fw-bold text-primary" asp-area="" asp-page="/Index">ModuloLMS</a>
 
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+                @if (ViewData["HideNav"] as bool? != true){
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
 
+<<<<<<< Updated upstream
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between align-items-center"> <!-- left menu -->
                     <ul class="navbar-nav me-auto mb-2 mb-sm-0">
                         <li class="nav-item">
@@ -75,27 +81,63 @@
                             <a class="nav-link text-dark fw-semibold" href="#">File Upload</a>
                         </li>
                     </ul>
+=======
+                    <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between align-items-center"> <!-- left menu -->
+                        <ul class="navbar-nav me-auto mb-2 mb-sm-0">
+                            @if (User.IsInRole("Instructor"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark fw-semibold" asp-page="/CoursePages/CreateCourse">Courses</a>
+                                </li>
+                            }
+                            else if (User.IsInRole("Student"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark fw-semibold" asp-page="/CoursePages/Register">Registration</a>
+                                </li>
+                            }
+                            <li class="nav-item">
+                                <a class="nav-link text-dark fw-semibold" asp-page="/Calendar">Calendar</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark fw-semibold" href="#">File Upload</a>
+                            </li>
+                        </ul>
+>>>>>>> Stashed changes
 
 
-                    <div class="d-flex align-items-center gap-2">  
-                        <!-- bell icon (update link (#)) -->
-                        <a href="#" class="btn btn-outline-secondary btn-sm rounded-circle d-flex align-items-center justify-content-center"    
-                           style="width: 38px; height: 38px;" title="Notifications" aria-label="Notifications">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-bell" viewBox="0 0 16 16">
-                                <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zM8 1.918l-.797.161A4.002 4.002 0 0 0 4 6c0 .628-.134 2.197-.459 3.742-.16.767-.376 1.566-.663 2.258h10.244c-.287-.692-.502-1.49-.663-2.258C12.134 8.197 12 6.628 12 6a4.002 4.002 0 0 0-3.203-3.92L8 1.917zM14.22 12c.223.447.481.801.78 1H1c.299-.199.557-.553.78-1C2.68 10.2 3 6.88 3 6c0-2.42 1.72-4.44 4.005-4.901a1 1 0 1 1 1.99 0A5.002 5.002 0 0 1 13 6c0 .88.32 4.2 1.22 6z" />
-                            </svg>
-                        </a>
+                        <div class="d-flex align-items-center gap-2">  
+                            <!-- bell icon (update link (#)) -->
+                            <a href="#" class="btn btn-outline-secondary btn-sm rounded-circle d-flex align-items-center justify-content-center"    
+                               style="width: 38px; height: 38px;" title="Notifications" aria-label="Notifications">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-bell" viewBox="0 0 16 16">
+                                    <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zM8 1.918l-.797.161A4.002 4.002 0 0 0 4 6c0 .628-.134 2.197-.459 3.742-.16.767-.376 1.566-.663 2.258h10.244c-.287-.692-.502-1.49-.663-2.258C12.134 8.197 12 6.628 12 6a4.002 4.002 0 0 0-3.203-3.92L8 1.917zM14.22 12c.223.447.481.801.78 1H1c.299-.199.557-.553.78-1C2.68 10.2 3 6.88 3 6c0-2.42 1.72-4.44 4.005-4.901a1 1 0 1 1 1.99 0A5.002 5.002 0 0 1 13 6c0 .88.32 4.2 1.22 6z" />
+                                </svg>
+                            </a>
 
-                        <!-- profile Icon (update link (#)) -->
-                        <a href="#" class="btn btn-outline-primary btn-sm rounded-circle d-flex align-items-center justify-content-center"
-                           style="width: 38px; height: 38px;" title="Profile Menu" aria-label="Profile Menu">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
-                                <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
-                                <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" />
-                            </svg>
-                        </a>
+                            <!-- profile Icon with Dropdown Menu -->
+                            <div class="dropdown">
+                                <button class="btn btn-outline-primary btn-sm rounded-circle d-flex align-items-center justify-content-center"
+                                        type="button" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false"
+                                        style="width: 38px; height: 38px;" title="Profile Menu" aria-label="Profile Menu">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                                        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
+                                        <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" />
+                                    </svg>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end shadow-sm" aria-labelledby="profileDropdown">
+                                    <li><a class="dropdown-item" href="#">Profile</a></li>
+                                    <li>
+                                        <form method="post" asp-page="/UserPages/Logout" class="m-0 p-0">
+                                            <button type="submit" class="dropdown-item">Logout</button>
+                                        </form>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
-                </div>
+
+                }
             </div>
         </nav>
     </header>
