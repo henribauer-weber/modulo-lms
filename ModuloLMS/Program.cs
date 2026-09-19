@@ -1,10 +1,21 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using ModuloLMS.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<ModuloLMSContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// Cookie Authentication
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/login";
+        options.AccessDeniedPath = "/access-denied";
+    });
+
+builder.Services.AddAuthorization();
 
 // Add services to the container.
 builder.Services.AddRazorPages();
@@ -23,6 +34,7 @@ app.UseHttpsRedirection();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapStaticAssets();

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace ModuloLMS.Pages.UserPages
 {
+    [IgnoreAntiforgeryToken]
     public class LogoutModel : PageModel
     {
         public async Task<IActionResult> OnGetAsync()

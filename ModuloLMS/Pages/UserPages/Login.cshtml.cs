@@ -5,6 +5,9 @@ using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
 using ModuloLMS.Data;
 using ModuloLMS.Models;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace ModuloLMS.Pages.UserPages
 {
@@ -16,6 +19,9 @@ namespace ModuloLMS.Pages.UserPages
         {
             _context = context;
         }
+
+        [BindProperty(SupportsGet = true)]
+        public string? ReturnUrl { get; set; }
 
         public IActionResult OnGet()
         {
@@ -37,11 +43,14 @@ namespace ModuloLMS.Pages.UserPages
 
         public async Task<IActionResult> OnPostAsync()
         {
+            //=====================================================================================
+            // Validate Inputs and Check with Databse 
+            //=====================================================================================
             if (!ModelState.IsValid)
             {
                 return Page();
             }
-            
+
             // Get the user associated with this email
             var userEntity = await _context.Users.FirstOrDefaultAsync(u => u.Email.ToLower() == Input.Email.ToLower());
 
@@ -52,13 +61,41 @@ namespace ModuloLMS.Pages.UserPages
                 ModelState.AddModelError(string.Empty, "Invalid email or password.");
                 return Page();
             }
+            //=====================================================================================
 
+
+            //=====================================================================================
+            // User Authentication and Session Creation 
+            //=====================================================================================
+
+            // Create claims and sign in with cookie auth
+            var claims = new List<Claim>
+            { // Create claims for the user, which are key value pairs that represent the user's identity and roles
+                new Claim(ClaimTypes.NameIdentifier, userEntity.Id.ToString()),
+                new Claim(ClaimTypes.Name, userEntity.Email ?? string.Empty),
+                new Claim(ClaimTypes.Email, userEntity.Email ?? string.Empty),
+                new Claim(ClaimTypes.Role, userEntity.Type == UserType.Instructor ? "Instructor" : "Student")
+            };
+
+            var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme); // Create a claims identity with the claims and specify the authentication scheme
+            var principal = new ClaimsPrincipal(identity); // Create a claims principal with the identity, which represents the authenticated user
+
+            var authProperties = new AuthenticationProperties
+            {
+                IsPersistent = false // The authentication cookie lasts until the end of this browser session.
+            };
+
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, authProperties); // Sign in the user with the claims principal and authentication properties
+            //=====================================================================================
+
+
+            // If ReturnUrl is provided and is local, redirect back. Otherwise go to dashboard.
+            if (!string.IsNullOrEmpty(ReturnUrl) && Url.IsLocalUrl(ReturnUrl))
+            {
+                return LocalRedirect(ReturnUrl);
+            }
             // Redirect to dashboard page after login
-<<<<<<< Updated upstream
-            return RedirectToPage("/Dashboard");
-=======
             return RedirectToPage("/Index");
->>>>>>> Stashed changes
         }
     }
 }
