@@ -8,7 +8,7 @@ using static ModuloLMS.Models.Course;
 
 namespace ModuloLMS.Pages.CoursePages
 {
-    //[Authorize] // will prevent non-logged in users from accessing page, likely will want in most places
+    [Authorize(Roles = "Instructor")] // will prevent non-logged in users from accessing page, likely will want in most places
     public class CreateCourseModel : PageModel
     {
         private readonly ModuloLMSContext _context;
