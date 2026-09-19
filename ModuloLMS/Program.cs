@@ -7,12 +7,12 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<ModuloLMSContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+// Cookie Authentication
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
-        options.LoginPath = "/login"; // Redirect to login page if not authenticated
-        options.LogoutPath = "/logout"; // Redirect to logout page
-        options.AccessDeniedPath = "/access-denied"; // Redirect to access denied page
+        options.LoginPath = "/login";
+        options.AccessDeniedPath = "/access-denied";
     });
 
 builder.Services.AddAuthorization();
